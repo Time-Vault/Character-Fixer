@@ -1,0 +1,48 @@
+//Fix broken characters in the notes upload
+
+function myFunction() {
+  var activeSheet = SpreadsheetApp.getActiveSheet();
+  var selection = activeSheet.getSelection();
+  var rangeList = selection.getActiveRange();
+  var values = rangeList.getValues();
+
+  var x = 1, y = 1;
+
+  values.forEach(function(row) {
+   row.forEach(function(col) {
+    var text = col.toString();
+
+    while (text.includes("â€™")) {
+      text = text.replace("â€™", "'");
+    }
+
+    while (text.includes("â€“")) {
+      text = text.replace("â€“", "-");
+    }
+ 
+    while (text.includes("â€¦")) {
+      text = text.replace("â€¦", ";");
+    }
+ 
+    while (text.includes("â€¢")) {
+      text = text.replace("â€¢", "•");
+    }
+
+    while (text.includes("â€˜")) {
+      text = text.replace("â€˜", "'");
+    }
+
+    while (text.includes("â€œ") || text.includes("â€")) {
+      text = text.replace("â€œ", "\"");
+      text = text.replace("â€", "\"");
+    }
+
+     Logger.log(rangeList.getCell(x, y).getA1Notation());
+     rangeList.getCell(x, y).setValue(text);
+
+     y++;
+   });
+   x++;
+   y=1;
+ });
+}
